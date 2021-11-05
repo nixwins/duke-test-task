@@ -15,7 +15,6 @@ export default new Vuex.Store({
       localStorage.setItem("products", JSON.stringify(state.products));
     },
     ADD_PRODUCT_BASKET(state, payload) {
-      console.log(!state.basketProducts.find((item) => item == payload));
       if (!state.basketProducts.find((item) => item == payload)) {
         state.basketProducts.push(payload);
         localStorage.setItem(
@@ -39,10 +38,10 @@ export default new Vuex.Store({
       commit("SET_IS_LOADING", true);
       Vue.axios
         .get(`/posts/${productId}`)
-        .then((response) => {
+        .then(() => {
           commit("ADD_PRODUCT_BASKET", productId);
         })
-        .catch((err) => {
+        .catch(() => {
           commit("SET_IS_LOADING", false);
         })
         .finally(() => {
@@ -52,7 +51,6 @@ export default new Vuex.Store({
     saveProductsLocal({ commit }, products) {
       if (localStorage.key("products")) {
         commit("SET_PRODUCTS", JSON.parse(localStorage.getItem("products")));
-        return;
       } else {
         products.forEach((item) => (item.is_exists_basket = false));
         commit("SET_PRODUCTS", products);
